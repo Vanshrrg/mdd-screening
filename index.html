@@ -59,11 +59,10 @@
   .q-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .q-table th { background: var(--surface2); padding: 10px 12px; text-align: center; font-weight: 600; border: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
   .q-table th:first-child { text-align: left; }
-  .q-table td { padding: 12px; border: 1px solid var(--border); vertical-align: middle; }
-  .q-table td:first-child { line-height: 1.5; }
+  .q-table td { padding: 12px; border: 1px solid var(--border); vertical-align: middle; line-height: 1.5; text-align: left; }
+  .q-table td.radio-col { text-align: center; width: 60px; }
   .q-table tr:nth-child(even) td { background: var(--surface2); }
   .q-table td input[type="radio"] { accent-color: var(--accent); transform: scale(1.2); }
-  .q-table td:not(:first-child) { text-align: center; }
 
   .code-display { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; color: var(--text-muted); margin-top: 8px; word-break: break-all; display: flex; align-items: flex-start; gap: 10px; }
   .code-label { font-size: 0.75rem; font-family: 'Sarabun', sans-serif; color: var(--accent); white-space: nowrap; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
@@ -110,7 +109,11 @@
   .star-opt input { accent-color: #2a4a9c; }
   .sub-note { font-size: 0.77rem; color: #5a6a9c; margin-top: 5px; }
 
-  .error-msg { color: #c0392b; font-size: 0.82rem; margin-top: 8px; display: none; font-weight: 600; }
+  .q-table tr.row-error td { background: #fde8e0 !important; }
+  .q-table tr.row-error td:nth-child(2) { color: #b7410e; font-weight: 600; }
+  .q-table tr.row-error td:nth-child(2)::after { content: ' *'; color: #c0392b; font-weight: 700; }
+  .row-err-msg { color: #c0392b; font-size: 0.82rem; font-weight: 600; margin-top: 10px; display: none; }
+  .row-err-msg.show { display: block; }
   .error-msg.show { display: block; }
   .field.has-error .option-card, .field.has-error input[type="text"],
   .field.has-error select { border-color: #c0392b !important; }
@@ -260,18 +263,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr id="row-q2_1">
         <td>1. ท่านรู้สึกหดหู่ เศร้า หรือท้อแท้สิ้นหวังหรือไม่</td>
-        <td><input type="radio" name="q2_1" value="0"></td>
-        <td><input type="radio" name="q2_1" value="1"></td>
+        <td class="radio-col"><input type="radio" name="q2_1" value="0"></td>
+        <td class="radio-col"><input type="radio" name="q2_1" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-q2_2">
         <td>2. ท่านรู้สึกเบื่อ ทำอะไรก็ไม่เพลิดเพลินหรือไม่</td>
-        <td><input type="radio" name="q2_2" value="0"></td>
-        <td><input type="radio" name="q2_2" value="1"></td>
+        <td class="radio-col"><input type="radio" name="q2_2" value="0"></td>
+        <td class="radio-col"><input type="radio" name="q2_2" value="1"></td>
       </tr>
     </tbody>
   </table>
+  <p class="row-err-msg" id="err-2q">* กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่มีสีแดงยังไม่ได้ตอบ)</p>
 
   <div class="hint-box">
     💡 <strong>หมายเหตุ:</strong> หากท่านตอบว่า <em>"ไม่มี"</em> ทั้ง 2 ข้อ แบบสอบถามจะสิ้นสุดที่นี่และแสดงผลทันที — ไม่ต้องทำแบบประเมินส่วนถัดไป
@@ -306,18 +310,19 @@
       </tr>
     </thead>
     <tbody>
-      <tr><td>1. เบื่อ ไม่สนใจอยากทำอะไร</td><td><input type="radio" name="q9_1" value="0"></td><td><input type="radio" name="q9_1" value="1"></td><td><input type="radio" name="q9_1" value="2"></td><td><input type="radio" name="q9_1" value="3"></td></tr>
-      <tr><td>2. ไม่สบายใจ ซึมเศร้า ท้อแท้</td><td><input type="radio" name="q9_2" value="0"></td><td><input type="radio" name="q9_2" value="1"></td><td><input type="radio" name="q9_2" value="2"></td><td><input type="radio" name="q9_2" value="3"></td></tr>
-      <tr><td>3. หลับยาก หรือหลับๆ ตื่นๆ หรือหลับมากเกินไป</td><td><input type="radio" name="q9_3" value="0"></td><td><input type="radio" name="q9_3" value="1"></td><td><input type="radio" name="q9_3" value="2"></td><td><input type="radio" name="q9_3" value="3"></td></tr>
-      <tr><td>4. เหนื่อยง่าย หรือไม่ค่อยมีแรง</td><td><input type="radio" name="q9_4" value="0"></td><td><input type="radio" name="q9_4" value="1"></td><td><input type="radio" name="q9_4" value="2"></td><td><input type="radio" name="q9_4" value="3"></td></tr>
-      <tr><td>5. เบื่ออาหาร หรือกินมากเกินไป</td><td><input type="radio" name="q9_5" value="0"></td><td><input type="radio" name="q9_5" value="1"></td><td><input type="radio" name="q9_5" value="2"></td><td><input type="radio" name="q9_5" value="3"></td></tr>
-      <tr><td>6. รู้สึกไม่ดีกับตัวเอง คิดว่าตัวเองล้มเหลวหรือทำให้ครอบครัวผิดหวัง</td><td><input type="radio" name="q9_6" value="0"></td><td><input type="radio" name="q9_6" value="1"></td><td><input type="radio" name="q9_6" value="2"></td><td><input type="radio" name="q9_6" value="3"></td></tr>
-      <tr><td>7. สมาธิไม่ดีเวลาทำอะไร เช่น ดูโทรทัศน์ ฟังวิทยุ หรืองานที่ต้องใช้ความตั้งใจ</td><td><input type="radio" name="q9_7" value="0"></td><td><input type="radio" name="q9_7" value="1"></td><td><input type="radio" name="q9_7" value="2"></td><td><input type="radio" name="q9_7" value="3"></td></tr>
-      <tr><td>8. พูดช้า ทำอะไรช้าลงจนคนอื่นสังเกตเห็นได้ หรือกระสับกระส่าย อยู่นิ่งไม่ได้</td><td><input type="radio" name="q9_8" value="0"></td><td><input type="radio" name="q9_8" value="1"></td><td><input type="radio" name="q9_8" value="2"></td><td><input type="radio" name="q9_8" value="3"></td></tr>
-      <tr><td>9. คิดทำร้ายตนเอง หรือคิดว่าถ้าตายไปคงจะดี</td><td><input type="radio" name="q9_9" value="0"></td><td><input type="radio" name="q9_9" value="1"></td><td><input type="radio" name="q9_9" value="2"></td><td><input type="radio" name="q9_9" value="3"></td></tr>
+      <tr id="row-q9_1"><td>1. เบื่อ ไม่สนใจอยากทำอะไร</td><td class="radio-col"><input type="radio" name="q9_1" value="0"></td><td class="radio-col"><input type="radio" name="q9_1" value="1"></td><td class="radio-col"><input type="radio" name="q9_1" value="2"></td><td class="radio-col"><input type="radio" name="q9_1" value="3"></td></tr>
+      <tr id="row-q9_2"><td>2. ไม่สบายใจ ซึมเศร้า ท้อแท้</td><td class="radio-col"><input type="radio" name="q9_2" value="0"></td><td class="radio-col"><input type="radio" name="q9_2" value="1"></td><td class="radio-col"><input type="radio" name="q9_2" value="2"></td><td class="radio-col"><input type="radio" name="q9_2" value="3"></td></tr>
+      <tr id="row-q9_3"><td>3. หลับยาก หรือหลับๆ ตื่นๆ หรือหลับมากเกินไป</td><td class="radio-col"><input type="radio" name="q9_3" value="0"></td><td class="radio-col"><input type="radio" name="q9_3" value="1"></td><td class="radio-col"><input type="radio" name="q9_3" value="2"></td><td class="radio-col"><input type="radio" name="q9_3" value="3"></td></tr>
+      <tr id="row-q9_4"><td>4. เหนื่อยง่าย หรือไม่ค่อยมีแรง</td><td class="radio-col"><input type="radio" name="q9_4" value="0"></td><td class="radio-col"><input type="radio" name="q9_4" value="1"></td><td class="radio-col"><input type="radio" name="q9_4" value="2"></td><td class="radio-col"><input type="radio" name="q9_4" value="3"></td></tr>
+      <tr id="row-q9_5"><td>5. เบื่ออาหาร หรือกินมากเกินไป</td><td class="radio-col"><input type="radio" name="q9_5" value="0"></td><td class="radio-col"><input type="radio" name="q9_5" value="1"></td><td class="radio-col"><input type="radio" name="q9_5" value="2"></td><td class="radio-col"><input type="radio" name="q9_5" value="3"></td></tr>
+      <tr id="row-q9_6"><td>6. รู้สึกไม่ดีกับตัวเอง คิดว่าตัวเองล้มเหลวหรือทำให้ครอบครัวผิดหวัง</td><td class="radio-col"><input type="radio" name="q9_6" value="0"></td><td class="radio-col"><input type="radio" name="q9_6" value="1"></td><td class="radio-col"><input type="radio" name="q9_6" value="2"></td><td class="radio-col"><input type="radio" name="q9_6" value="3"></td></tr>
+      <tr id="row-q9_7"><td>7. สมาธิไม่ดีเวลาทำอะไร เช่น ดูโทรทัศน์ ฟังวิทยุ หรืองานที่ต้องใช้ความตั้งใจ</td><td class="radio-col"><input type="radio" name="q9_7" value="0"></td><td class="radio-col"><input type="radio" name="q9_7" value="1"></td><td class="radio-col"><input type="radio" name="q9_7" value="2"></td><td class="radio-col"><input type="radio" name="q9_7" value="3"></td></tr>
+      <tr id="row-q9_8"><td>8. พูดช้า ทำอะไรช้าลงจนคนอื่นสังเกตเห็นได้ หรือกระสับกระส่าย อยู่นิ่งไม่ได้</td><td class="radio-col"><input type="radio" name="q9_8" value="0"></td><td class="radio-col"><input type="radio" name="q9_8" value="1"></td><td class="radio-col"><input type="radio" name="q9_8" value="2"></td><td class="radio-col"><input type="radio" name="q9_8" value="3"></td></tr>
+      <tr id="row-q9_9"><td>9. คิดทำร้ายตนเอง หรือคิดว่าถ้าตายไปคงจะดี</td><td class="radio-col"><input type="radio" name="q9_9" value="0"></td><td class="radio-col"><input type="radio" name="q9_9" value="1"></td><td class="radio-col"><input type="radio" name="q9_9" value="2"></td><td class="radio-col"><input type="radio" name="q9_9" value="3"></td></tr>
     </tbody>
   </table>
   </div>
+  <p class="row-err-msg" id="err-9q">* กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่มีสีแดงยังไม่ได้ตอบ)</p>
 
   <div class="hint-box">
     💡 <strong>หมายเหตุ:</strong> หากคะแนนรวมต่ำกว่า 7 แบบสอบถามจะสิ้นสุดและแสดงผลทันที — ไม่ต้องทำแบบประเมินความเสี่ยงส่วนถัดไป
@@ -351,42 +356,45 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td rowspan="7" style="vertical-align:middle; font-size:0.82rem; color:var(--text-muted); line-height:1.5;">ช่วง 1 เดือนที่ผ่านมา รวมวันนี้</td>
-        <td>1. คิดอยากตาย หรือคิดว่าตายไปจะดีกว่า</td>
-        <td><input type="radio" name="sq1" value="0"></td><td><input type="radio" name="sq1" value="1"></td>
+      <tr id="row-sq1">
+        <td rowspan="7" style="vertical-align:middle; font-size:0.82rem; color:var(--text-muted); line-height:1.5; padding:12px;">ช่วง 1 เดือนที่ผ่านมา รวมวันนี้</td>
+        <td style="padding:12px;">1. คิดอยากตาย หรือคิดว่าตายไปจะดีกว่า</td>
+        <td class="radio-col" style="padding:12px;"><input type="radio" name="sq1" value="0"></td>
+        <td class="radio-col" style="padding:12px;"><input type="radio" name="sq1" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq2">
         <td>2. อยากทำร้ายตัวเอง หรือทำให้ตัวเองบาดเจ็บ</td>
-        <td><input type="radio" name="sq2" value="0"></td><td><input type="radio" name="sq2" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq2" value="0"></td><td class="radio-col"><input type="radio" name="sq2" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq3">
         <td>3. คิดเกี่ยวกับการฆ่าตัวตาย</td>
-        <td><input type="radio" name="sq3" value="0"></td><td><input type="radio" name="sq3" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq3" value="0"></td><td class="radio-col"><input type="radio" name="sq3" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq4">
         <td>4. มีแผนการที่จะฆ่าตัวตาย</td>
-        <td><input type="radio" name="sq4" value="0"></td><td><input type="radio" name="sq4" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq4" value="0"></td><td class="radio-col"><input type="radio" name="sq4" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq5">
         <td>5. เตรียมการที่จะทำร้ายตนเองหรือฆ่าตัวตาย โดยตั้งใจจะให้ตายจริงๆ</td>
-        <td><input type="radio" name="sq5" value="0"></td><td><input type="radio" name="sq5" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq5" value="0"></td><td class="radio-col"><input type="radio" name="sq5" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq6">
         <td>6. ทำให้ตนเองบาดเจ็บ แต่ไม่ตั้งใจจะให้เสียชีวิต</td>
-        <td><input type="radio" name="sq6" value="0"></td><td><input type="radio" name="sq6" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq6" value="0"></td><td class="radio-col"><input type="radio" name="sq6" value="1"></td>
       </tr>
-      <tr>
+      <tr id="row-sq7">
         <td>7. พยายามฆ่าตัวตาย โดยตั้งใจจะให้ตาย</td>
-        <td><input type="radio" name="sq7" value="0"></td><td><input type="radio" name="sq7" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq7" value="0"></td><td class="radio-col"><input type="radio" name="sq7" value="1"></td>
       </tr>
-      <tr>
-        <td style="font-size:0.82rem; color:var(--text-muted);">ตลอดชีวิตที่ผ่านมา</td>
-        <td>8. ท่านเคยพยายามฆ่าตัวตาย</td>
-        <td><input type="radio" name="sq8" value="0"></td><td><input type="radio" name="sq8" value="1"></td>
+      <tr id="row-sq8">
+        <td style="font-size:0.82rem; color:var(--text-muted); padding:12px;">ตลอดชีวิตที่ผ่านมา</td>
+        <td style="padding:12px;">8. ท่านเคยพยายามฆ่าตัวตาย</td>
+        <td class="radio-col" style="padding:12px;"><input type="radio" name="sq8" value="0"></td>
+        <td class="radio-col" style="padding:12px;"><input type="radio" name="sq8" value="1"></td>
       </tr>
     </tbody>
   </table>
+  <p class="row-err-msg" id="err-8q">* กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่มีสีแดงยังไม่ได้ตอบ)</p>
 
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="goTo(3)">← ย้อนกลับ</button>
@@ -402,13 +410,14 @@
   <div class="section-label">ส่วนที่ 5 จาก 5</div>
   <div class="section-title">การช่วยเหลือและข้อเสนอแนะ</div>
 
-  <div class="field">
+  <div class="field" id="field-support">
     <label style="font-size:1rem; color:var(--accent);">🤝 ท่านต้องการให้มีผู้ดูแลช่วยเหลือด้านสุขภาพจิตจากบริษัทหรือไม่</label>
     <div class="radio-group">
       <label class="option-card"><input type="radio" name="support" value="ต้องการ"> ต้องการให้ติดต่อกลับเพื่อให้ความช่วยเหลือ</label>
       <label class="option-card"><input type="radio" name="support" value="ไม่ต้องการ"> ไม่ต้องการในขณะนี้</label>
       <label class="option-card"><input type="radio" name="support" value="ไม่แน่ใจ"> ยังไม่แน่ใจ</label>
     </div>
+    <p class="error-msg" id="err-support">* กรุณาเลือกตัวเลือกนี้</p>
   </div>
 
   <div class="btn-row">
@@ -496,27 +505,6 @@ function validateSec1() {
   goTo(2);
 }
 
-function validateSec4() {
-  clearErrors();
-  let missing = [];
-  for (let i = 1; i <= 8; i++) {
-    if (!document.querySelector('input[name="sq' + i + '"]:checked')) missing.push(i);
-  }
-  if (missing.length) {
-    alert('กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่ยังไม่ได้ตอบ: ' + missing.join(', ') + ')');
-    return;
-  }
-  goTo(5);
-}
-
-function validateSec5() {
-  if (!document.querySelector('input[name="support"]:checked')) {
-    alert('* กรุณาเลือกตัวเลือกด้านการช่วยเหลือก่อนส่ง');
-    return;
-  }
-  submitForm();
-}
-
 // ── Navigation ─────────────────────────────────────────────────
 let currentSection = 1;
 
@@ -533,41 +521,102 @@ function goTo(n) {
 
 function goToResult() { goTo('Result'); }
 
+// ── ล้าง error highlights ──────────────────────────────────────
+function clearTableErrors(prefix, count) {
+  for (let i = 1; i <= count; i++) {
+    const row = document.getElementById('row-' + prefix + i);
+    if (row) row.classList.remove('row-error');
+  }
+}
+
 // ── 2Q: ไม่มีอาการทั้ง 2 ข้อ → สิ้นสุด ────────────────────────
 function handle2Q() {
+  clearTableErrors('q2_', 2);
+  document.getElementById('err-2q').classList.remove('show');
+  let missing = false;
+  if (!document.querySelector('input[name="q2_1"]:checked')) {
+    document.getElementById('row-q2_1').classList.add('row-error'); missing = true;
+  }
+  if (!document.querySelector('input[name="q2_2"]:checked')) {
+    document.getElementById('row-q2_2').classList.add('row-error'); missing = true;
+  }
+  if (missing) {
+    document.getElementById('err-2q').classList.add('show');
+    return;
+  }
   const q1 = document.querySelector('input[name="q2_1"]:checked');
   const q2 = document.querySelector('input[name="q2_2"]:checked');
-  if (!q1 || !q2) { alert('กรุณาตอบคำถามให้ครบทั้ง 2 ข้อ'); return; }
   if (parseInt(q1.value) + parseInt(q2.value) === 0) {
-    showResult('none', 0);   // ไม่มีอาการ → ไม่ต้องทำ 9Q
+    showResult('none', 0);
   } else {
-    goTo(3);                 // มีอาการ → ทำ 9Q ต่อ
+    goTo(3);
   }
 }
 
 // ── 9Q: คะแนน < 7 → สิ้นสุด, ≥ 7 → ทำแบบประเมินความเสี่ยง ──
 function handle9Q() {
-  let total = 0, q1v = 0, q2v = 0, ok = true;
+  for (let i = 1; i <= 9; i++) {
+    const row = document.getElementById('row-q9_' + i);
+    if (row) row.classList.remove('row-error');
+  }
+  document.getElementById('err-9q').classList.remove('show');
+  let total = 0, q1v = 0, q2v = 0, missing = false;
   for (let i = 1; i <= 9; i++) {
     const a = document.querySelector('input[name="q9_' + i + '"]:checked');
-    if (!a) { ok = false; break; }
-    const v = parseInt(a.value);
-    total += v;
-    if (i === 1) q1v = v;
-    if (i === 2) q2v = v;
+    if (!a) {
+      document.getElementById('row-q9_' + i).classList.add('row-error');
+      missing = true;
+    } else {
+      const v = parseInt(a.value);
+      total += v;
+      if (i === 1) q1v = v;
+      if (i === 2) q2v = v;
+    }
   }
-  if (!ok) { alert('กรุณาตอบคำถามให้ครบทั้ง 9 ข้อ'); return; }
-
+  if (missing) {
+    document.getElementById('err-9q').classList.add('show');
+    document.querySelector('.row-error')?.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
   if (total >= 7 && (q1v >= 2 || q2v >= 2)) {
-    goTo(4);   // คะแนนสูง → ต้องทำแบบประเมินความเสี่ยง
+    goTo(4);
   } else {
-    // คะแนนต่ำกว่าเกณฑ์ → สิ้นสุด ไม่ต้องทำ 8Q
     const level = total < 7 ? 'minimal' : (total < 13 ? 'mild' : (total < 19 ? 'moderate' : 'severe'));
     showResult(level, total);
   }
 }
 
-// ── Submit ─────────────────────────────────────────────────────
+// ── 8Q validation ──────────────────────────────────────────────
+function validateSec4() {
+  for (let i = 1; i <= 8; i++) {
+    const row = document.getElementById('row-sq' + i);
+    if (row) row.classList.remove('row-error');
+  }
+  document.getElementById('err-8q').classList.remove('show');
+  let missing = false;
+  for (let i = 1; i <= 8; i++) {
+    if (!document.querySelector('input[name="sq' + i + '"]:checked')) {
+      document.getElementById('row-sq' + i).classList.add('row-error');
+      missing = true;
+    }
+  }
+  if (missing) {
+    document.getElementById('err-8q').classList.add('show');
+    document.querySelector('#sec4 .row-error')?.scrollIntoView({ behavior:'smooth', block:'center' });
+    return;
+  }
+  goTo(5);
+}
+
+// ── ส่วนที่ 5 ──────────────────────────────────────────────────
+function validateSec5() {
+  clearErrors();
+  if (!document.querySelector('input[name="support"]:checked')) {
+    markError('field-support', 'err-support');
+    return;
+  }
+  submitForm();
+}
 function submitForm() {
   const support = document.querySelector('input[name="support"]:checked');
   if (!support) { alert('กรุณาเลือกตัวเลือกด้านการช่วยเหลือก่อนส่ง'); return; }
@@ -814,6 +863,11 @@ function saveResponse(level, q9score) {
     const a = document.querySelector('input[name="q9_' + i + '"]:checked');
     q9items.push(a ? parseInt(a.value) : 0);
   }
+  const sq = {};
+  for (let i = 1; i <= 8; i++) {
+    const a = document.querySelector('input[name="sq' + i + '"]:checked');
+    sq['sq' + i] = a ? parseInt(a.value) : 0;
+  }
   const record = {
     id:            'SUB-' + Date.now(),
     timestamp:     new Date().toLocaleString('th-TH'),
@@ -830,6 +884,7 @@ function saveResponse(level, q9score) {
     level:         level,
     suicideRisk:   suicideRisk,
     support:       document.querySelector('input[name="support"]:checked')?.value || '-',
+    ...sq,
     ...stressorBinary,
   };
   try {
