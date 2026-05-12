@@ -655,7 +655,8 @@ function submitForm() {
     if (a) q9score += parseInt(a.value);
   }
   const sq8score = calc8QScore();
-  let crisis = sq8score > 0;
+  const didDo8Q = document.querySelector('input[name="sq1"]:checked') !== null;
+  let crisis = didDo8Q && sq8score > 0;
   const q2s = (parseInt((document.querySelector('input[name="q2_1"]:checked') || {value:0}).value) +
                parseInt((document.querySelector('input[name="q2_2"]:checked') || {value:0}).value));
 
@@ -887,10 +888,21 @@ function saveResponse(level, q9score, sq8score) {
   );
   const stressorBinary = {};
   STRESSOR_KEYS.forEach(k => { stressorBinary['s_' + k] = checkedStressors.has(k) ? 1 : 0; });
-  let suicideRisk = 'ไม่มี';
-  for (let i = 1; i <= 8; i++) {
-    const a = document.querySelector('input[name="sq' + i + '"]:checked');
-    if (a && a.value === '1') { suicideRisk = '⚠️ มี'; break; }
+
+  // suicideRisk ตาม criteria 8Q: 0=ไม่มี, 1-8=น้อย, 9-16=ปานกลาง, ≥17=รุนแรง
+  // ถ้าไม่ได้ทำ 8Q (sq8score=0 และไม่ผ่านเกณฑ์) → ไม่ได้ประเมิน
+  const didDo8Q = document.querySelector('input[name="sq1"]:checked') !== null;
+  let suicideRisk;
+  if (!didDo8Q) {
+    suicideRisk = 'ไม่ได้ประเมิน';
+  } else if (sq8score === 0) {
+    suicideRisk = 'ไม่มี';
+  } else if (sq8score <= 8) {
+    suicideRisk = 'น้อย';
+  } else if (sq8score <= 16) {
+    suicideRisk = 'ปานกลาง';
+  } else {
+    suicideRisk = 'รุนแรง';
   }
   const q2s = (parseInt((document.querySelector('input[name="q2_1"]:checked')||{value:0}).value) +
                parseInt((document.querySelector('input[name="q2_2"]:checked')||{value:0}).value));
