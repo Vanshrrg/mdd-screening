@@ -59,7 +59,7 @@
   .q-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
   .q-table th { background: var(--surface2); padding: 10px 12px; text-align: center; font-weight: 600; border: 1px solid var(--border); font-size: 0.82rem; color: var(--text-muted); line-height: 1.4; }
   .q-table th:first-child { text-align: left; }
-  .q-table td { padding: 12px; border: 1px solid var(--border); vertical-align: middle; line-height: 1.5; text-align: left; }
+  .q-table td { padding: 12px; border: 1px solid var(--border); vertical-align: middle; line-height: 1.5; text-align: left; word-wrap: break-word; overflow-wrap: break-word; }
   .q-table td.radio-col { text-align: center; width: 60px; }
   .q-table tr:nth-child(even) td { background: var(--surface2); }
   .q-table td input[type="radio"] { accent-color: var(--accent); transform: scale(1.2); }
@@ -125,6 +125,7 @@
     .radio-group.inline { flex-direction: column; }
     .hospital-list .tel { margin-left: 0; }
   }
+  .popup-open { display: flex !important; }
 </style>
 </head>
 <body>
@@ -165,17 +166,9 @@
   </div>
 
   <div class="field" id="field-age">
-    <label><span class="num">2</span> ช่วงอายุ (ปี)</label>
-    <div class="radio-group inline">
-      <label class="option-card"><input type="radio" name="ageRange" value="น้อยกว่า 25"> &lt;25</label>
-      <label class="option-card"><input type="radio" name="ageRange" value="25-30"> 25–30</label>
-      <label class="option-card"><input type="radio" name="ageRange" value="31-35"> 31–35</label>
-      <label class="option-card"><input type="radio" name="ageRange" value="36-40"> 36–40</label>
-      <label class="option-card"><input type="radio" name="ageRange" value="41-50"> 41–50</label>
-      <label class="option-card"><input type="radio" name="ageRange" value="มากกว่า 50"> &gt;50</label>
-    </div>
-    <p class="note">* ใช้ช่วงอายุแทนอายุจริงเพื่อปกป้องความเป็นส่วนตัว</p>
-    <p class="error-msg" id="err-age">* กรุณาเลือกช่วงอายุ</p>
+    <label><span class="num">2</span> อายุ (ปี)</label>
+    <input type="number" id="ageInput" placeholder="กรอกอายุเป็นตัวเลข เช่น 32" min="15" max="99" style="width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-family:'Sarabun',sans-serif;font-size:0.95rem;background:var(--bg);color:var(--text);transition:border-color 0.2s;" oninput="this.style.borderColor=''">
+    <p class="error-msg" id="err-age">* กรุณากรอกอายุ (15–99 ปี)</p>
   </div>
 
   <div class="field" id="field-site">
@@ -208,25 +201,25 @@
   <div class="field" id="field-stressor">
     <label><span class="num">5</span> เรื่องที่ทำให้ท่านเครียด กังวล หรือไม่สบายใจในช่วง 1 เดือนที่ผ่านมา <span style="font-weight:400;">(เลือกได้มากกว่า 1 ข้อ)</span></label>
     <div class="checkbox-group">
-      <label class="option-card"><input type="checkbox" name="stressor" value="ไม่มี"> ไม่มี</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="โรคประจำตัว/การเจ็บป่วย"> โรคประจำตัว การเจ็บป่วย</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ความสัมพันธ์ในครอบครัว"> ความสัมพันธ์ในครอบครัว</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้สูงอายุ/เด็กแรกเกิด"> ครอบครัวมีผู้สูงอายุ / เด็กแรกเกิด</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้พิการ"> ครอบครัวมีผู้พิการทางกาย / ทางจิต</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้ป่วยติดเตียง"> ครอบครัวมีผู้ป่วยติดเตียง</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ถูกยืมเงิน/โกง/แก๊งคอลเซนเตอร์"> ถูกยืมเงิน ถูกโกง แก๊งคอลเซนเตอร์</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ค่าใช้จ่าย/รายได้ลด/หนี้สิน"> ค่าใช้จ่าย รายได้ลดลง ภาระหนี้สิน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="สภาพแวดล้อมการทำงานไม่เหมาะสม"> สภาพแวดล้อมและอุปกรณ์การทำงานไม่เหมาะสม</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="การออกแบบงาน/ลักษณะงาน"> การออกแบบงาน / ลักษณะงานซ้ำๆ</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ปริมาณงาน/ความกดดัน"> ปริมาณงานมาก ความกดดันในงาน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ตารางงาน/กะงาน"> ตารางงาน ทำงานเป็นกะ ชั่วโมงการทำงาน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="วัฒนธรรมองค์กร/การสื่อสาร"> วัฒนธรรมองค์กร การสื่อสาร การสนับสนุน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="บทบาทหน้าที่คลุมเครือ"> บทบาทและหน้าที่คลุมเครือหรือทับซ้อน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ความก้าวหน้าในอาชีพ"> ความก้าวหน้าในอาชีพ</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ขาดอิสระในการตัดสินใจ"> ขาดอิสระในการตัดสินใจ / ควบคุมงาน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ความสัมพันธ์ในที่ทำงาน"> ความสัมพันธ์กับหัวหน้า / เพื่อนร่วมงาน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวไม่สนับสนุนการทำงาน"> ครอบครัวมีทัศนคติต่องานไม่ดี / ไม่สนับสนุน</label>
-      <label class="option-card"><input type="checkbox" name="stressor" value="เครียดกับอาชีพเสริม"> เครียดหรือกังวลกับอาชีพเสริม</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ไม่มี" onchange="handleStressorNone(this)"> ไม่มี</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="โรคประจำตัว/การเจ็บป่วย" onchange="handleStressorOther(this)"> โรคประจำตัว การเจ็บป่วย</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ความสัมพันธ์ในครอบครัว" onchange="handleStressorOther(this)"> ความสัมพันธ์ในครอบครัว</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้สูงอายุ/เด็กแรกเกิด" onchange="handleStressorOther(this)"> ครอบครัวมีผู้สูงอายุ / เด็กแรกเกิด</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้พิการ" onchange="handleStressorOther(this)"> ครอบครัวมีผู้พิการทางกาย / ทางจิต</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวมีผู้ป่วยติดเตียง" onchange="handleStressorOther(this)"> ครอบครัวมีผู้ป่วยติดเตียง</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ถูกยืมเงิน/โกง/แก๊งคอลเซนเตอร์" onchange="handleStressorOther(this)"> ถูกยืมเงิน ถูกโกง แก๊งคอลเซนเตอร์</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ค่าใช้จ่าย/รายได้ลด/หนี้สิน" onchange="handleStressorOther(this)"> ค่าใช้จ่าย รายได้ลดลง ภาระหนี้สิน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="สภาพแวดล้อมการทำงานไม่เหมาะสม" onchange="handleStressorOther(this)"> สภาพแวดล้อมและอุปกรณ์การทำงานไม่เหมาะสม</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="การออกแบบงาน/ลักษณะงาน" onchange="handleStressorOther(this)"> การออกแบบงาน / ลักษณะงานซ้ำๆ</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ปริมาณงาน/ความกดดัน" onchange="handleStressorOther(this)"> ปริมาณงานมาก ความกดดันในงาน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ตารางงาน/กะงาน" onchange="handleStressorOther(this)"> ตารางงาน ทำงานเป็นกะ ชั่วโมงการทำงาน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="วัฒนธรรมองค์กร/การสื่อสาร" onchange="handleStressorOther(this)"> วัฒนธรรมองค์กร การสื่อสาร การสนับสนุน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="บทบาทหน้าที่คลุมเครือ" onchange="handleStressorOther(this)"> บทบาทและหน้าที่คลุมเครือหรือทับซ้อน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ความก้าวหน้าในอาชีพ" onchange="handleStressorOther(this)"> ความก้าวหน้าในอาชีพ</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ขาดอิสระในการตัดสินใจ" onchange="handleStressorOther(this)"> ขาดอิสระในการตัดสินใจ / ควบคุมงาน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ความสัมพันธ์ในที่ทำงาน" onchange="handleStressorOther(this)"> ความสัมพันธ์กับหัวหน้า / เพื่อนร่วมงาน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="ครอบครัวไม่สนับสนุนการทำงาน" onchange="handleStressorOther(this)"> ครอบครัวมีทัศนคติต่องานไม่ดี / ไม่สนับสนุน</label>
+      <label class="option-card"><input type="checkbox" name="stressor" value="เครียดกับอาชีพเสริม" onchange="handleStressorOther(this)"> เครียดหรือกังวลกับอาชีพเสริม</label>
     </div>
     <p class="error-msg" id="err-stressor">* กรุณาเลือกอย่างน้อย 1 รายการ (หากไม่มีให้เลือก "ไม่มี")</p>
   </div>
@@ -277,10 +270,6 @@
   </table>
   <p class="row-err-msg" id="err-2q">* กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่มีสีแดงยังไม่ได้ตอบ)</p>
 
-  <div class="hint-box">
-    💡 <strong>หมายเหตุ:</strong> หากท่านตอบว่า <em>"ไม่มี"</em> ทั้ง 2 ข้อ แบบสอบถามจะสิ้นสุดที่นี่และแสดงผลทันที — ไม่ต้องทำแบบประเมินส่วนถัดไป
-  </div>
-
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="goTo(1)">← ย้อนกลับ</button>
     <div style="display:flex; align-items:center; gap:16px;">
@@ -324,10 +313,6 @@
   </div>
   <p class="row-err-msg" id="err-9q">* กรุณาตอบคำถามให้ครบทุกข้อ (ข้อที่มีสีแดงยังไม่ได้ตอบ)</p>
 
-  <div class="hint-box">
-    💡 <strong>หมายเหตุ:</strong> หากคะแนนรวมต่ำกว่า 7 แบบสอบถามจะสิ้นสุดและแสดงผลทันที — ไม่ต้องทำแบบประเมินความเสี่ยงส่วนถัดไป
-  </div>
-
   <div class="btn-row">
     <button class="btn btn-secondary" onclick="goTo(2)">← ย้อนกลับ</button>
     <div style="display:flex; align-items:center; gap:16px;">
@@ -346,13 +331,13 @@
     <strong style="color:#8b0000;">⚠️ ส่วนนี้มีคำถามที่อ่อนไหว</strong> — หากท่านรู้สึกไม่สบายใจ สามารถโทรสายด่วนสุขภาพจิต <strong>1323</strong> ได้ตลอด 24 ชั่วโมง
   </div>
 
-  <table class="q-table">
+  <table class="q-table" style="table-layout:fixed;width:100%;">
     <thead>
       <tr>
         <th style="width:22%">ช่วงเวลา</th>
         <th style="width:53%">คำถาม</th>
-        <th>ไม่มี</th>
-        <th>มี</th>
+        <th style="width:12.5%">ไม่มี</th>
+        <th style="width:12.5%">มี</th>
       </tr>
     </thead>
     <tbody>
@@ -368,7 +353,20 @@
       </tr>
       <tr id="row-sq3">
         <td>3. คิดเกี่ยวกับการฆ่าตัวตาย</td>
-        <td class="radio-col"><input type="radio" name="sq3" value="0"></td><td class="radio-col"><input type="radio" name="sq3" value="1"></td>
+        <td class="radio-col"><input type="radio" name="sq3" value="0" onchange="onSq3Change(0)"></td><td class="radio-col"><input type="radio" name="sq3" value="1" onchange="onSq3Change(1)"></td>
+      </tr>
+      <tr id="row-sq3_1" style="display:none;background:#fff8f0;">
+        <td style="padding:10px 14px;font-size:0.88rem;color:#555;line-height:1.6;border-left:3px solid #e09a2b;word-wrap:break-word;overflow-wrap:break-word;white-space:normal;">
+          <strong>3.1</strong> ท่านสามารถควบคุมความอยากฆ่าตัวตายที่ท่านคิดอยู่นั้นได้หรือไม่ หรือบอกได้ไหมว่าคงจะไม่ทำตามความคิดนั้นในขณะนี้
+        </td>
+        <td class="radio-col" style="text-align:center;vertical-align:middle;">
+          <div style="font-size:0.75rem;font-weight:700;color:#555;margin-bottom:4px;">ได้</div>
+          <input type="radio" name="sq3_1" value="ได้" style="accent-color:#2d6a4f;transform:scale(1.2);">
+        </td>
+        <td class="radio-col" style="text-align:center;vertical-align:middle;">
+          <div style="font-size:0.75rem;font-weight:700;color:#555;margin-bottom:4px;">ไม่ได้</div>
+          <input type="radio" name="sq3_1" value="ไม่ได้" style="accent-color:#c0392b;transform:scale(1.2);">
+        </td>
       </tr>
       <tr id="row-sq4">
         <td>4. มีแผนการที่จะฆ่าตัวตาย</td>
@@ -383,7 +381,7 @@
         <td class="radio-col"><input type="radio" name="sq6" value="0"></td><td class="radio-col"><input type="radio" name="sq6" value="1"></td>
       </tr>
       <tr id="row-sq7">
-        <td>7. พยายามฆ่าตัวตาย โดยตั้งใจจะให้ตาย</td>
+        <td>7. ได้พยายามฆ่าตัวตาย โดยคาดหวัง/ตั้งใจที่จะให้ตาย</td>
         <td class="radio-col"><input type="radio" name="sq7" value="0"></td><td class="radio-col"><input type="radio" name="sq7" value="1"></td>
       </tr>
       <tr id="row-sq8">
@@ -438,6 +436,37 @@
 
 
 </div><!-- /container -->
+
+<!-- POPUP: 8Q ข้อ 3.1 -->
+<div id="popup-sq3" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;padding:28px 28px 24px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <div style="background:#fde8e0;border:1px solid #c0392b;border-radius:8px;padding:12px 14px;margin-bottom:18px;font-size:0.85rem;color:#8b0000;font-weight:600;">⚠️ คำถามเพิ่มเติม — ข้อ 3.1</div>
+    <p style="font-size:1rem;font-weight:600;line-height:1.65;color:#1a1714;margin-bottom:20px;">ท่านสามารถควบคุมความอยากฆ่าตัวตายที่ท่านคิดอยู่นั้นได้หรือไม่ หรือบอกได้ไหมว่าคงจะไม่ทำตามความคิดนั้นในขณะนี้</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #d8d3cb;border-radius:8px;cursor:pointer;background:#f5f3ef;font-size:0.95rem;" onclick="selectSq31('ได้')">
+        <input type="radio" name="sq3_1" value="ได้" style="accent-color:#2d6a4f;transform:scale(1.2);"> ได้ — สามารถควบคุมได้ / คงจะไม่ทำ
+      </label>
+      <label style="display:flex;align-items:center;gap:10px;padding:12px 14px;border:1.5px solid #d8d3cb;border-radius:8px;cursor:pointer;background:#f5f3ef;font-size:0.95rem;" onclick="selectSq31('ไม่ได้')">
+        <input type="radio" name="sq3_1" value="ไม่ได้" style="accent-color:#c0392b;transform:scale(1.2);"> ไม่ได้ — ควบคุมไม่ได้
+      </label>
+    </div>
+    <button onclick="closeSq3Popup()" style="margin-top:18px;width:100%;padding:11px;background:#2d6a4f;color:white;border:none;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:1rem;font-weight:600;cursor:pointer;">ยืนยัน →</button>
+  </div>
+</div>
+
+<!-- POPUP: เบอร์โทรติดต่อกลับ -->
+<div id="popup-contact" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9000;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:white;border-radius:14px;padding:28px 28px 24px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+    <p style="font-size:1.1rem;font-weight:700;color:#2d6a4f;margin-bottom:6px;">🤝 ระบุเบอร์โทรติดต่อกลับ</p>
+    <p style="font-size:0.88rem;color:#7a7470;margin-bottom:18px;line-height:1.6;">กรุณากรอกเบอร์โทรศัพท์ที่สะดวกให้ติดต่อกลับเพื่อรับการช่วยเหลือด้านสุขภาพจิต</p>
+    <input type="tel" id="contactPhone" placeholder="เช่น 081-234-5678" style="width:100%;padding:11px 14px;border:1.5px solid #d8d3cb;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:1rem;margin-bottom:6px;">
+    <p style="font-size:0.78rem;color:#7a7470;margin-bottom:16px;">🔒 เบอร์โทรนี้จะถูกส่งไปยังผู้ดูแลโดยตรง และใช้เพื่อการช่วยเหลือเท่านั้น</p>
+    <div style="display:flex;gap:10px;">
+      <button onclick="skipContactPhone()" style="flex:1;padding:11px;background:transparent;color:#7a7470;border:1.5px solid #d8d3cb;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;">ข้ามขั้นตอนนี้</button>
+      <button onclick="saveContactPhone()" style="flex:2;padding:11px;background:#2d6a4f;color:white;border:none;border-radius:8px;font-family:'Sarabun',sans-serif;font-size:0.95rem;font-weight:600;cursor:pointer;">ยืนยันเบอร์โทร ✓</button>
+    </div>
+  </div>
+</div>
 <script>
 // ── SheetJS for Excel export ───────────────────────────────────
 const sheetScript = document.createElement('script');
@@ -455,7 +484,9 @@ let empHash = '', siteCode = '';
 async function hashEmpId() {
   const val = document.getElementById('empId').value.trim();
   if (!val) { document.getElementById('hashDisplay').style.display = 'none'; empHash = ''; return; }
-  empHash = await sha256(val);
+  // รวม siteCode + empId เพื่อให้รหัสพนักงานซ้ำกันข้ามบริษัทไม่ชนกัน
+  const combined = (siteCode || 'NOSITE') + '|' + val;
+  empHash = await sha256(combined);
   document.getElementById('hashValue').textContent = empHash.substring(0, 5);
   document.getElementById('hashDisplay').style.display = 'flex';
 }
@@ -467,6 +498,8 @@ function onSiteChange() {
   const masked = siteCode.replace(/\d+$/, 'xxx');
   document.getElementById('siteCodeValue').textContent = masked;
   document.getElementById('siteCodeDisplay').style.display = 'flex';
+  // Re-hash employee ID ถ้ากรอกไว้แล้ว เพื่อให้รหัสปิดบังใช้ siteCode ใหม่
+  hashEmpId();
 }
 // ── Validation helpers ─────────────────────────────────────────
 function showErr(id, show) {
@@ -487,8 +520,12 @@ function validateSec1() {
   let ok = true;
   if (!document.querySelector('input[name="gender"]:checked'))
     { markError('field-gender','err-gender'); ok = false; }
-  if (!document.querySelector('input[name="ageRange"]:checked'))
-    { markError('field-age','err-age'); ok = false; }
+  const ageVal = parseInt(document.getElementById('ageInput').value);
+  if (!ageVal || ageVal < 15 || ageVal > 99) {
+    document.getElementById('field-age').classList.add('has-error');
+    document.getElementById('ageInput').style.borderColor = '#c0392b';
+    showErr('err-age', true); ok = false;
+  }
   if (!document.getElementById('siteSelect').value)
     { markError('field-site','err-site'); ok = false; }
   if (!document.getElementById('empId').value.trim())
@@ -498,7 +535,6 @@ function validateSec1() {
   if (!document.querySelector('input[name="prevTreatment"]:checked'))
     { markError('field-treatment','err-treatment'); ok = false; }
   if (!ok) {
-    // scroll to first error
     document.querySelector('.field.has-error')?.scrollIntoView({ behavior:'smooth', block:'center' });
     return;
   }
@@ -547,7 +583,7 @@ function handle2Q() {
   const q1 = document.querySelector('input[name="q2_1"]:checked');
   const q2 = document.querySelector('input[name="q2_2"]:checked');
   if (parseInt(q1.value) + parseInt(q2.value) === 0) {
-    showResult('none', 0);
+    showResult('none', 0, 0);
   } else {
     goTo(3);
   }
@@ -582,7 +618,7 @@ function handle9Q() {
     goTo(4);
   } else {
     const level = total < 7 ? 'minimal' : (total < 13 ? 'mild' : (total < 19 ? 'moderate' : 'severe'));
-    showResult(level, total);
+    showResult(level, total, 0);
   }
 }
 
@@ -608,15 +644,7 @@ function validateSec4() {
   goTo(5);
 }
 
-// ── ส่วนที่ 5 ──────────────────────────────────────────────────
-function validateSec5() {
-  clearErrors();
-  if (!document.querySelector('input[name="support"]:checked')) {
-    markError('field-support', 'err-support');
-    return;
-  }
-  submitForm();
-}
+// ── ส่วนที่ 5 ── (handled by validateSec5 above)
 function submitForm() {
   const support = document.querySelector('input[name="support"]:checked');
   if (!support) { alert('กรุณาเลือกตัวเลือกด้านการช่วยเหลือก่อนส่ง'); return; }
@@ -626,50 +654,89 @@ function submitForm() {
     const a = document.querySelector('input[name="q9_' + i + '"]:checked');
     if (a) q9score += parseInt(a.value);
   }
-  let crisis = false;
-  for (let i = 1; i <= 8; i++) {
-    const a = document.querySelector('input[name="sq' + i + '"]:checked');
-    if (a && a.value === '1') { crisis = true; break; }
-  }
+  const sq8score = calc8QScore();
+  let crisis = sq8score > 0;
   const q2s = (parseInt((document.querySelector('input[name="q2_1"]:checked') || {value:0}).value) +
                parseInt((document.querySelector('input[name="q2_2"]:checked') || {value:0}).value));
 
   let level = 'none';
   if (q2s === 0) level = 'none';
-  else if (crisis) level = 'crisis';
+  else if (crisis) {
+    if (sq8score >= 17) level = 'crisis_severe';
+    else if (sq8score >= 9) level = 'crisis_moderate';
+    else level = 'crisis_mild';
+  }
   else if (q9score < 7) level = 'minimal';
   else if (q9score < 13) level = 'mild';
   else if (q9score < 19) level = 'moderate';
   else level = 'severe';
 
-  showResult(level, q9score);
+  showResult(level, q9score, sq8score);
 }
 
 // ── Show Result ────────────────────────────────────────────────
-function showResult(level, score) {
+const HOSP_HTML = `
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;">
+  <p style="font-weight:700;margin-bottom:12px;font-size:0.93rem;">🏥 โรงพยาบาลที่รับขึ้นทะเบียนสิทธิประกันสังคม (ไม่มีค่าใช้จ่าย)</p>
+  <ul class="hospital-list">
+    <li>โรงพยาบาลชลบุรี <span class="tel">📞 038-931-000 ต่อ 1600</span></li>
+    <li>โรงพยาบาลสมเด็จบรมราชเทวี ณ ศรีราชา <span class="tel">📞 038-320-000</span></li>
+    <li>โรงพยาบาลมหาวิทยาลัยบูรพา <span class="tel">📞 038-102-581-3 ต่อ คลินิกจิตเวช</span></li>
+    <li>โรงพยาบาลเอกชลอ่างศิลา <span class="tel">📞 038-939-888</span></li>
+    <li>โรงพยาบาลวิภาราม อมตะนคร <span class="tel">📞 033-265-599</span></li>
+    <li>โรงพยาบาลวิภาราม แหลมฉบัง <span class="tel">📞 033-009-800</span></li>
+  </ul>
+</div>
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;">
+  <p style="font-weight:700;margin-bottom:12px;font-size:0.93rem;">🏥 สถานพยาบาลเอกชน (มีค่าใช้จ่าย)</p>
+  <ul class="hospital-list">
+    <li>โรงพยาบาลสมิติเวช ชลบุรี <span class="tel">📞 033-038-888 ต่อ 988</span></li>
+    <li>โรงพยาบาลสมิติเวช ศรีราชา <span class="tel">📞 038-320-300 ต่อ 4183, 4184</span></li>
+    <li>คลินิกแพทย์ทรงสิทธิ์ <span class="tel">📞 063-990-8039</span></li>
+    <li>คลินิกหมอวัลลดา-หมอทรงศักดิ์ <span class="tel">📞 038-275-971</span></li>
+    <li>คลินิกแพทย์ธรรมิกา <span class="tel">📞 087-992-6993</span></li>
+    <li>เอยูคลินิกเวชกรรม <span class="tel">📞 082-141-4498</span></li>
+  </ul>
+</div>
+<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;">
+  <p style="font-weight:700;margin-bottom:10px;font-size:0.93rem;">🗺️ ค้นหาสถานพยาบาลใกล้เคียง</p>
+  <a href="https://www.google.com/maps/search/โรงพยาบาลจิตเวช+ชลบุรี" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#2d6a4f;color:white;padding:10px 18px;border-radius:8px;text-decoration:none;font-size:0.92rem;font-weight:600;">📍 เปิด Google Maps — สถานพยาบาลจิตเวชใกล้ฉัน</a>
+  <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px;">กดปุ่มด้านบนเพื่อค้นหาสถานพยาบาลในพื้นที่ของท่าน</p>
+</div>`;
+
+function showResult(level, score, sq8score) {
+  sq8score = sq8score || 0;
+  const crisisAdvice = '📞 สายด่วนสุขภาพจิต <strong>1323</strong> (24 ชั่วโมง)<br>📞 กรมสุขภาพจิต <strong>1667</strong><br>หรือไปห้องฉุกเฉินโรงพยาบาลที่ใกล้ที่สุดทันที';
   const map = {
-    none:     { cls:'low',      icon:'✅', title:'ไม่มีอาการซึมเศร้า หรือมีอาการน้อยมาก',
-                body:'ท่านไม่จำเป็นต้องรักษาในขณะนี้ แต่ควรดูแลสุขภาพจิตอย่างต่อเนื่อง',
-                advice:'พักผ่อนให้เพียงพอ นอนหลับ 6–8 ชั่วโมง ออกกำลังกายสม่ำเสมอ ทำกิจกรรมผ่อนคลาย พบปะเพื่อนฝูง' },
-    minimal:  { cls:'low',      icon:'🟡', title:'มีอาการซึมเศร้าระดับน้อย (9Q: ' + score + ' คะแนน)',
-                body:'ยังไม่ถึงเกณฑ์ที่ต้องรักษา แต่ควรดูแลตัวเองและสังเกตอาการต่อเนื่อง',
-                advice:'หากอาการไม่ดีขึ้นภายใน 2–4 สัปดาห์ ควรพบบุคลากรสาธารณสุขเพื่อประเมินเพิ่มเติม' },
-    mild:     { cls:'moderate', icon:'🟠', title:'มีอาการซึมเศร้าระดับปานกลาง (9Q: ' + score + ' คะแนน)',
-                body:'แนะนำให้พบบุคลากรสาธารณสุขเพื่อรับการประเมินและรักษา',
-                advice:'กรุณานัดหมายแพทย์หรือนักจิตวิทยาโดยเร็ว ดูรายชื่อสถานพยาบาลด้านล่าง' },
-    moderate: { cls:'moderate', icon:'🟠', title:'มีอาการซึมเศร้าระดับค่อนข้างรุนแรง (9Q: ' + score + ' คะแนน)',
-                body:'ควรพบแพทย์โดยเร็วที่สุด อย่าปล่อยทิ้งไว้',
-                advice:'กรุณาติดต่อสถานพยาบาลด้านล่าง หรือโทรสายด่วนสุขภาพจิต <strong>1323</strong>' },
-    severe:   { cls:'high',     icon:'🔴', title:'มีอาการซึมเศร้าระดับรุนแรง (9Q: ' + score + ' คะแนน)',
-                body:'ต้องการการรักษาโดยด่วน กรุณาอย่ารอช้า',
-                advice:'📞 สายด่วนสุขภาพจิต <strong>1323</strong> (24 ชั่วโมง) หรือไปห้องฉุกเฉินโรงพยาบาลที่ใกล้ที่สุด' },
-    crisis:   { cls:'high',     icon:'🚨', title:'พบความเสี่ยงต่อการทำร้ายตนเอง',
-                body:'กรุณาติดต่อขอความช่วยเหลือทันที — ท่านไม่ต้องเผชิญสิ่งนี้คนเดียว',
-                advice:'📞 สายด่วนสุขภาพจิต <strong>1323</strong> (24 ชั่วโมง)<br>📞 กรมสุขภาพจิต <strong>1667</strong><br>หรือไปห้องฉุกเฉินโรงพยาบาลที่ใกล้ที่สุดทันที' },
+    none:           { cls:'low',      icon:'✅', title:'ไม่มีอาการซึมเศร้า หรือมีอาการน้อยมาก',
+                      body:'ท่านไม่จำเป็นต้องรักษาในขณะนี้ แต่ควรดูแลสุขภาพจิตอย่างต่อเนื่อง',
+                      advice:'พักผ่อนให้เพียงพอ นอนหลับ 6–8 ชั่วโมง ออกกำลังกายสม่ำเสมอ ทำกิจกรรมผ่อนคลาย พบปะเพื่อนฝูง' },
+    minimal:        { cls:'low',      icon:'🟡', title:'มีอาการซึมเศร้าระดับน้อย (9Q: ' + score + ' คะแนน)',
+                      body:'ยังไม่ถึงเกณฑ์ที่ต้องรักษา แต่ควรดูแลตัวเองและสังเกตอาการต่อเนื่อง',
+                      advice:'หากอาการไม่ดีขึ้นภายใน 2–4 สัปดาห์ ควรพบบุคลากรสาธารณสุขเพื่อประเมินเพิ่มเติม' },
+    mild:           { cls:'moderate', icon:'🟠', title:'มีอาการซึมเศร้าระดับปานกลาง (9Q: ' + score + ' คะแนน)',
+                      body:'แนะนำให้พบบุคลากรสาธารณสุขเพื่อรับการประเมินและรักษา',
+                      advice:'กรุณานัดหมายแพทย์หรือนักจิตวิทยาโดยเร็ว ดูรายชื่อสถานพยาบาลด้านล่าง' },
+    moderate:       { cls:'moderate', icon:'🟠', title:'มีอาการซึมเศร้าระดับค่อนข้างรุนแรง (9Q: ' + score + ' คะแนน)',
+                      body:'ควรพบแพทย์โดยเร็วที่สุด อย่าปล่อยทิ้งไว้',
+                      advice:'กรุณาติดต่อสถานพยาบาลด้านล่าง หรือโทรสายด่วนสุขภาพจิต <strong>1323</strong>' },
+    severe:         { cls:'high',     icon:'🔴', title:'มีอาการซึมเศร้าระดับรุนแรง (9Q: ' + score + ' คะแนน)',
+                      body:'ต้องการการรักษาโดยด่วน กรุณาอย่ารอช้า',
+                      advice:'📞 สายด่วนสุขภาพจิต <strong>1323</strong> (24 ชั่วโมง) หรือไปห้องฉุกเฉินโรงพยาบาลที่ใกล้ที่สุด' },
+    crisis_mild:    { cls:'high',     icon:'🚨', title:'พบความเสี่ยงต่อการทำร้ายตนเอง — ระดับน้อย (8Q: ' + sq8score + ' คะแนน)',
+                      body:'กรุณาติดต่อขอความช่วยเหลือทันที', advice: crisisAdvice },
+    crisis_moderate:{ cls:'high',     icon:'🚨', title:'พบความเสี่ยงต่อการทำร้ายตนเอง — ระดับปานกลาง (8Q: ' + sq8score + ' คะแนน)',
+                      body:'กรุณาติดต่อขอความช่วยเหลือทันที', advice: crisisAdvice },
+    crisis_severe:  { cls:'high',     icon:'🚨', title:'พบความเสี่ยงต่อการทำร้ายตนเอง — ระดับรุนแรง (8Q: ' + sq8score + ' คะแนน)',
+                      body:'กรุณาติดต่อขอความช่วยเหลือทันที ท่านไม่ต้องเผชิญสิ่งนี้คนเดียว', advice: crisisAdvice },
+    // fallback legacy key
+    crisis:         { cls:'high',     icon:'🚨', title:'พบความเสี่ยงต่อการทำร้ายตนเอง',
+                      body:'กรุณาติดต่อขอความช่วยเหลือทันที', advice: crisisAdvice },
   };
 
   const r = map[level] || map['none'];
-  const showHosp = (level !== 'none');
+  // แสดงโรงพยาบาลและแผนที่สำหรับทุกระดับ
+  const showHosp = true;
 
   document.getElementById('resultContent').innerHTML =
     '<div class="result-card ' + r.cls + '">' +
@@ -677,40 +744,17 @@ function showResult(level, score) {
       '<p>' + r.body + '</p>' +
     '</div>' +
     '<div class="info-box"><strong>ข้อแนะนำในการดูแลตนเอง:</strong><br>' + r.advice + '</div>' +
-    (showHosp ? `
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;">
-      <p style="font-weight:700;margin-bottom:12px;font-size:0.93rem;">🏥 โรงพยาบาลที่รับขึ้นทะเบียนสิทธิประกันสังคม (ไม่มีค่าใช้จ่าย)</p>
-      <ul class="hospital-list">
-        <li>โรงพยาบาลชลบุรี <span class="tel">📞 038-931-000 ต่อ 1600</span></li>
-        <li>โรงพยาบาลสมเด็จบรมราชเทวี ณ ศรีราชา <span class="tel">📞 038-320-000</span></li>
-        <li>โรงพยาบาลมหาวิทยาลัยบูรพา <span class="tel">📞 038-102-581-3 ต่อ คลินิกจิตเวช</span></li>
-        <li>โรงพยาบาลเอกชลอ่างศิลา <span class="tel">📞 038-939-888</span></li>
-        <li>โรงพยาบาลวิภาราม อมตะนคร <span class="tel">📞 033-265-599</span></li>
-        <li>โรงพยาบาลวิภาราม แหลมฉบัง <span class="tel">📞 033-009-800</span></li>
-      </ul>
-    </div>
-    <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px;">
-      <p style="font-weight:700;margin-bottom:12px;font-size:0.93rem;">🏥 สถานพยาบาลเอกชน (มีค่าใช้จ่าย)</p>
-      <ul class="hospital-list">
-        <li>โรงพยาบาลสมิติเวช ชลบุรี <span class="tel">📞 033-038-888 ต่อ 988</span></li>
-        <li>โรงพยาบาลสมิติเวช ศรีราชา <span class="tel">📞 038-320-300 ต่อ 4183, 4184</span></li>
-        <li>คลินิกแพทย์ทรงสิทธิ์ <span class="tel">📞 063-990-8039</span></li>
-        <li>คลินิกหมอวัลลดา-หมอทรงศักดิ์ <span class="tel">📞 038-275-971</span></li>
-        <li>คลินิกแพทย์ธรรมิกา <span class="tel">📞 087-992-6993</span></li>
-        <li>เอยูคลินิกเวชกรรม <span class="tel">📞 082-141-4498</span></li>
-      </ul>
-    </div>` : '') +
+    HOSP_HTML +
     '<button class="btn btn-secondary" onclick="window.print()" style="margin-top:12px;width:100%;">🖨️ พิมพ์ผลการประเมิน</button>' +
 
-    // ── Pilot feedback (แสดงสำหรับทุกคน) ──────────────────────
+    // ── Pilot feedback ──────────────────────────────────────
     '<hr style="border:none;border-top:2px dashed #b0c0e8;margin:32px 0 24px;">' +
     '<div style="margin-bottom:16px;">' +
       '<p style="font-size:0.88rem;color:#2a4a9c;font-weight:700;margin-bottom:4px;">🧪 ข้อเสนอแนะสำหรับการทดลองใช้งาน (Pilot Study)</p>' +
-      '<p style="font-size:0.82rem;color:#5a6a9c;line-height:1.6;">ความคิดเห็นของท่านจะช่วยปรับปรุงแบบสอบถามนี้ก่อนนำไปใช้จริงในวงกว้าง กรุณาตอบตามความจริง ไม่มีคำตอบถูกหรือผิด</p>' +
+      '<p style="font-size:0.82rem;color:#5a6a9c;line-height:1.6;">ความคิดเห็นของท่านจะช่วยปรับปรุงแบบสอบถามนี้ก่อนนำไปใช้จริงในวงกว้าง</p>' +
     '</div>' +
     '<div class="pilot-box">' +
       '<h4>📋 ความคิดเห็นต่อแบบสอบถาม</h4>' +
-
       '<div class="pilot-field">' +
         '<label>1. ภาษาที่ใช้ในแบบสอบถามเข้าใจง่ายเพียงใด</label>' +
         '<div class="pilot-rating">' +
@@ -721,7 +765,6 @@ function showResult(level, score) {
           '<label class="star-opt"><input type="radio" name="pilot_lang" value="5"> 5 — เข้าใจง่ายมาก</label>' +
         '</div>' +
       '</div>' +
-
       '<div class="pilot-field">' +
         '<label>2. ระยะเวลาในการตอบแบบสอบถามเหมาะสมหรือไม่</label>' +
         '<div class="pilot-rating">' +
@@ -730,7 +773,6 @@ function showResult(level, score) {
           '<label class="star-opt"><input type="radio" name="pilot_time" value="สั้นเกินไป"> ⚡ สั้นเกินไป</label>' +
         '</div>' +
       '</div>' +
-
       '<div class="pilot-field">' +
         '<label>3. ท่านรู้สึกอย่างไรกับการปกป้องข้อมูล (รหัสปิดบัง)</label>' +
         '<div class="pilot-rating">' +
@@ -740,29 +782,23 @@ function showResult(level, score) {
           '<label class="star-opt"><input type="radio" name="pilot_privacy" value="ไม่เข้าใจวิธีการ"> ❓ ไม่เข้าใจวิธีการ</label>' +
         '</div>' +
       '</div>' +
-
       '<div class="pilot-field">' +
         '<label>4. คำถามข้อใดที่รู้สึกว่าไม่เหมาะสม ไม่ชัดเจน หรืออยากให้แก้ไข</label>' +
-        '<textarea name="pilot_unclear" placeholder="เช่น คำถามข้อ 8 ในส่วนที่ 3 ไม่ชัดเจน / คำว่า กระสับกระส่าย ไม่แน่ใจว่าหมายถึงอะไร..."></textarea>' +
-        '<p class="sub-note">* หากไม่มีสามารถเว้นว่างได้</p>' +
+        '<textarea name="pilot_unclear" placeholder="เช่น คำถามข้อ 8 ในส่วนที่ 3 ไม่ชัดเจน..."></textarea>' +
       '</div>' +
-
       '<div class="pilot-field">' +
         '<label>5. มีคำถามหรือหัวข้อที่คิดว่าควรเพิ่มเติมในแบบสอบถามนี้หรือไม่</label>' +
-        '<textarea name="pilot_add" placeholder="เช่น อยากให้มีคำถามเรื่องการสนับสนุนจากเพื่อนร่วมงาน / ควรถามเรื่องการออกกำลังกาย..."></textarea>' +
-        '<p class="sub-note">* หากไม่มีสามารถเว้นว่างได้</p>' +
+        '<textarea name="pilot_add" placeholder="เช่น อยากให้มีคำถามเรื่องการสนับสนุนจากเพื่อนร่วมงาน..."></textarea>' +
       '</div>' +
-
       '<div class="pilot-field" style="margin-bottom:0;">' +
         '<label>6. ข้อเสนอแนะอื่นๆ เพื่อปรับปรุงแบบสอบถามนี้</label>' +
-        '<textarea name="pilot_other" placeholder="เช่น ควรเพิ่มตัวเลือก ไม่แน่ใจ ในบางข้อ / หน้าจอบนมือถือยังอ่านยาก / อยากให้มีภาษาอังกฤษด้วย..."></textarea>' +
-        '<p class="sub-note">* หากไม่มีสามารถเว้นว่างได้</p>' +
+        '<textarea name="pilot_other" placeholder="เช่น ควรเพิ่มตัวเลือก ไม่แน่ใจ ในบางข้อ..."></textarea>' +
       '</div>' +
     '</div>' +
     '<button class="btn btn-primary" onclick="submitPilot()" style="width:100%;margin-top:4px;">ส่งข้อเสนอแนะ →</button>' +
     '<div id="pilotThanks" style="display:none;margin-top:14px;background:var(--accent-light);border:1.5px solid var(--accent);border-radius:8px;padding:14px 18px;font-size:0.92rem;color:var(--accent);font-weight:600;text-align:center;">✅ ขอบคุณสำหรับข้อเสนอแนะ ความคิดเห็นของท่านมีคุณค่ามาก</div>';
 
-  saveResponse(level, score);
+  saveResponse(level, score, sq8score);
   goToResult();
 }
 
@@ -823,7 +859,7 @@ const LEVEL_LABEL = {
 };
 
 // ── Save one response to localStorage ──────────────────────────
-function saveResponse(level, q9score) {
+function saveResponse(level, q9score, sq8score) {
   // stressors แยกเป็น binary 0/1 แต่ละรายการ
   const STRESSOR_KEYS = [
     'ไม่มี',
@@ -872,7 +908,7 @@ function saveResponse(level, q9score) {
     id:            'SUB-' + Date.now(),
     timestamp:     new Date().toLocaleString('th-TH'),
     gender:        document.querySelector('input[name="gender"]:checked')?.value || '-',
-    ageRange:      document.querySelector('input[name="ageRange"]:checked')?.value || '-',
+    age:           parseInt(document.getElementById('ageInput')?.value) || '-',
     siteCode:      siteCode || '-',
     empHash:       empHash || '-',
     prevTreatment: document.querySelector('input[name="prevTreatment"]:checked')?.value || '-',
@@ -881,9 +917,12 @@ function saveResponse(level, q9score) {
     q2total:       q2s,
     q9items:       q9items,
     q9total:       q9score,
+    sq8total:      sq8score || 0,
+    sq3_1:         document.querySelector('input[name="sq3_1"]:checked')?.value || '-',
     level:         level,
     suicideRisk:   suicideRisk,
     support:       document.querySelector('input[name="support"]:checked')?.value || '-',
+    contactPhone:  contactPhoneNumber || '-',
     ...sq,
     ...stressorBinary,
   };
@@ -976,7 +1015,7 @@ function renderAdminTable() {
       <td style="padding:9px 12px;color:#52b788;border-bottom:1px solid #2a2724;font-size:0.78rem;">${r.siteCode}</td>
       <td style="padding:9px 12px;color:#666;border-bottom:1px solid #2a2724;font-size:0.68rem;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.empHash}">${r.empHash.substring(0,16)}...</td>
       <td style="padding:9px 12px;text-align:center;color:#ccc;border-bottom:1px solid #2a2724;">${r.gender}</td>
-      <td style="padding:9px 12px;text-align:center;color:#ccc;border-bottom:1px solid #2a2724;">${r.ageRange}</td>
+      <td style="padding:9px 12px;text-align:center;color:#ccc;border-bottom:1px solid #2a2724;">${r.age || r.ageRange || '-'}</td>
       <td style="padding:9px 12px;text-align:center;color:#ccc;border-bottom:1px solid #2a2724;">${r.q2total}</td>
       <td style="padding:9px 12px;text-align:center;font-weight:700;color:${lv.color};border-bottom:1px solid #2a2724;">${r.q9total}</td>
       <td style="padding:9px 12px;text-align:center;border-bottom:1px solid #2a2724;">
@@ -1000,19 +1039,21 @@ function exportToExcel() {
 
   // ── Sheet 1: Responses ──
   const headers = [
-    'รหัสการส่ง','วันที่บันทึก','เพศ','ช่วงอายุ',
+    'รหัสการส่ง','วันที่บันทึก','เพศ','อายุ (ปี)',
     'รหัสสาขา','รหัสปิดบัง (พนักงาน)','รับการรักษามาก่อน',
     '2Q ข้อ1','2Q ข้อ2','2Q รวม',
     '9Q-1','9Q-2','9Q-3','9Q-4','9Q-5','9Q-6','9Q-7','9Q-8','9Q-9','9Q รวม',
-    'ระดับซึมเศร้า','ความเสี่ยงการฆ่าตัวตาย','ต้องการความช่วยเหลือ','ปัจจัยความเครียด'
+    '8Q รวม','8Q ข้อ3.1',
+    'ระดับซึมเศร้า','ความเสี่ยงการฆ่าตัวตาย','ต้องการความช่วยเหลือ','เบอร์ติดต่อกลับ','ปัจจัยความเครียด'
   ];
   const rows = data.map(r => [
-    r.id, r.timestamp, r.gender, r.ageRange,
+    r.id, r.timestamp, r.gender, r.age,
     r.siteCode, r.empHash, r.prevTreatment,
     r.q2_1, r.q2_2, r.q2total,
     ...(r.q9items || Array(9).fill(0)), r.q9total,
+    r.sq8total || 0, r.sq3_1 || '-',
     LEVEL_LABEL[r.level]?.th || r.level,
-    r.suicideRisk, r.support, r.stressors
+    r.suicideRisk, r.support, r.contactPhone || '-', r.stressors
   ]);
   const ws1 = XLSX.utils.aoa_to_sheet([headers, ...rows]);
 
@@ -1059,6 +1100,78 @@ function clearAllData() {
   if (!confirm('⚠️ ลบข้อมูลทั้งหมดในเครื่องนี้?\nไม่สามารถกู้คืนได้ — กรุณา Export ก่อนลบ')) return;
   localStorage.removeItem('mdd_responses');
   loadAdminDash();
+}
+
+// ── Stressor exclusivity ───────────────────────────────────────
+function handleStressorNone(cb) {
+  if (cb.checked) {
+    document.querySelectorAll('input[name="stressor"]').forEach(el => {
+      if (el.value !== 'ไม่มี') { el.checked = false; el.closest('.option-card')?.classList.remove('selected'); }
+    });
+    cb.closest('.option-card')?.classList.add('selected');
+  }
+}
+function handleStressorOther(cb) {
+  const noneBox = document.querySelector('input[name="stressor"][value="ไม่มี"]');
+  if (noneBox) { noneBox.checked = false; noneBox.closest('.option-card')?.classList.remove('selected'); }
+}
+
+// ── 8Q: sq3 toggle row 3.1 ────────────────────────────────────
+function onSq3Change(val) {
+  const row = document.getElementById('row-sq3_1');
+  const timeCell = document.querySelector('#row-sq1 td:first-child');
+  if (val === 1) {
+    row.style.display = 'table-row';
+    if (timeCell) timeCell.rowSpan = 8;
+  } else {
+    row.style.display = 'none';
+    document.querySelectorAll('input[name="sq3_1"]').forEach(r => r.checked = false);
+    if (timeCell) timeCell.rowSpan = 7;
+  }
+}
+function selectSq31(val) {
+  document.querySelectorAll('input[name="sq3_1"]').forEach(r => {
+    r.checked = (r.value === val);
+  });
+}
+function closeSq3Popup() {
+  document.getElementById('popup-sq3').classList.remove('popup-open');
+}
+
+// ── 8Q scoring per image criteria ─────────────────────────────
+// คะแนน: sq1=1, sq2=2, sq3=6, sq4=8, sq5=9, sq6=4, sq7=10, sq8=4
+const SQ_SCORES = [1, 2, 6, 8, 9, 4, 10, 4];
+function calc8QScore() {
+  let total = 0;
+  for (let i = 1; i <= 8; i++) {
+    const a = document.querySelector('input[name="sq' + i + '"]:checked');
+    if (a && a.value === '1') total += SQ_SCORES[i - 1];
+  }
+  return total;
+}
+
+// ── Support popup ──────────────────────────────────────────────
+let contactPhoneNumber = '';
+function validateSec5() {
+  clearErrors();
+  const supportVal = document.querySelector('input[name="support"]:checked')?.value;
+  if (!supportVal) { markError('field-support', 'err-support'); return; }
+  if (supportVal === 'ต้องการ') {
+    document.getElementById('popup-contact').classList.add('popup-open');
+  } else {
+    submitForm();
+  }
+}
+function saveContactPhone() {
+  const phone = document.getElementById('contactPhone').value.trim();
+  contactPhoneNumber = phone;
+  document.getElementById('popup-contact').classList.remove('popup-open');
+  submitForm();
+}
+function skipContactPhone() {
+  contactPhoneNumber = '';
+  document.getElementById('popup-contact').classList.remove('popup-open');
+  submitForm();
 }
 
 // ── Highlight selected cards ───────────────────────────────────
