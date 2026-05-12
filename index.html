@@ -1159,6 +1159,9 @@ function calc8QScore() {
     const a = document.querySelector('input[name="sq' + i + '"]:checked');
     if (a && a.value === '1') total += SQ_SCORES[i - 1];
   }
+  // ข้อ 3.1: ตอบ "ไม่ได้" (ควบคุมไม่ได้) = +8 คะแนน
+  const sq3_1 = document.querySelector('input[name="sq3_1"]:checked');
+  if (sq3_1 && sq3_1.value === 'ไม่ได้') total += 8;
   return total;
 }
 
