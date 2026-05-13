@@ -736,14 +736,66 @@ function showResult(level, score, sq8score) {
   };
 
   const r = map[level] || map['none'];
-  // แสดงโรงพยาบาลและแผนที่สำหรับทุกระดับ
-  const showHosp = true;
+  const isCrisis = level.startsWith('crisis');
+
+  const q9Box = '';
+
+  // ── helpers (ต้อง declare ก่อน no8QCard) ─────────────────
+  const q9LevelLabel = score < 7 ? 'น้อย' : score < 13 ? 'ปานกลาง' : score < 19 ? 'ค่อนข้างรุนแรง' : 'รุนแรง';
+  const q9BarPct     = Math.round((score / 27) * 100);
+  const q9BarColor   = score < 7 ? '#52b788' : score < 13 ? '#d4a017' : score < 19 ? '#e76f51' : '#e63946';
+
+  const sq8LevelLabel = sq8score === 0 ? 'ไม่มี' : sq8score <= 8 ? 'น้อย' : sq8score <= 16 ? 'ปานกลาง' : 'รุนแรง';
+  const sq8BarPct     = Math.min(100, Math.round((sq8score / 52) * 100));
+  const sq8BarColor   = sq8score === 0 ? '#52b788' : sq8score <= 8 ? '#d4a017' : sq8score <= 16 ? '#e76f51' : '#e63946';
+
+  function makeBar(label, val, max, pct, color, levelLabel) {
+    return `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(0,0,0,0.08);">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px;">
+        <span style="font-size:0.78rem;font-weight:600;opacity:0.75;">${label}</span>
+        <span style="font-size:1.1rem;font-weight:800;color:${color};">${val} <span style="font-size:0.72rem;font-weight:500;opacity:0.6;">/ ${max}</span></span>
+      </div>
+      <div style="background:rgba(0,0,0,0.1);border-radius:99px;height:8px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${color};border-radius:99px;"></div>
+      </div>
+      <div style="font-size:0.74rem;opacity:0.65;margin-top:5px;">ระดับ: ${levelLabel}</div>
+    </div>`;
+  }
+
+  const didDo8Q_result = document.querySelector('input[name="sq1"]:checked') !== null;
+  const q9Bar  = level !== 'none' ? makeBar('9Q คะแนนรวม', score, 27, q9BarPct, q9BarColor, q9LevelLabel) : '';
+  const sq8Bar = didDo8Q_result   ? makeBar('8Q คะแนนรวม', sq8score, 52, sq8BarPct, sq8BarColor, sq8LevelLabel) : '';
+
+  // กล่อง 8Q=0 แยกออกมา เมื่อทำ 8Q แล้วได้ 0 คะแนน
+  const didDo8Q_check = didDo8Q_result;
+  const no8QRisk = didDo8Q_check && sq8score === 0 && !isCrisis && level !== 'none';
+  const no8QCard = no8QRisk ? `
+    <div class="result-card low" style="margin-top:10px;">
+      <h3>✅ ผลประเมิน 8Q: ไม่พบความเสี่ยงต่อการทำร้ายตนเอง (8Q: 0 คะแนน)</h3>
+      <p>ท่านไม่มีแนวโน้มในการทำร้ายตนเองในขณะนี้</p>
+      ${sq8Bar}
+    </div>` : '';
+
+  // กรอบภาวะซึมเศร้า (crisis เท่านั้น) — มี 9Q bar ข้างใน
+  const depressionLevelLabel = score < 7 ? 'น้อย' : score < 13 ? 'ปานกลาง' : score < 19 ? 'ค่อนข้างรุนแรง' : 'รุนแรง';
+  const depressionCard = isCrisis ? `
+    <div class="result-card moderate" style="margin-bottom:10px;">
+      <h3>🟠 มีภาวะซึมเศร้าระดับ${depressionLevelLabel} (9Q: ${score} คะแนน)</h3>
+      <p>นอกจากนี้ยังพบความเสี่ยงต่อการทำร้ายตนเอง กรุณาติดต่อขอความช่วยเหลือทันที</p>
+      ${q9Bar}
+    </div>` : '';
+
+  // progress bar ใน result card หลัก
+  const progressBar = level === 'none' ? '' : isCrisis ? sq8Bar : q9Bar;
 
   document.getElementById('resultContent').innerHTML =
+    depressionCard +
     '<div class="result-card ' + r.cls + '">' +
       '<h3>' + r.icon + ' ' + r.title + '</h3>' +
       '<p>' + r.body + '</p>' +
+      progressBar +
     '</div>' +
+    no8QCard +
     '<div class="info-box"><strong>ข้อแนะนำในการดูแลตนเอง:</strong><br>' + r.advice + '</div>' +
     HOSP_HTML +
     '<button class="btn btn-secondary" onclick="window.print()" style="margin-top:12px;width:100%;">🖨️ พิมพ์ผลการประเมิน</button>' +
